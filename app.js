@@ -19,6 +19,14 @@ const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;',
 const str = value => value == null || value === '' ? '—' : esc(value);
 const trim = value => String(value || '').trim();
 const dateLocal = () => { const d = new Date(); return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-'); };
+const localISO = d => [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+function currentWeekWorkouts(workouts){
+  const today = new Date(); today.setHours(12,0,0,0);
+  const monday = new Date(today); monday.setDate(today.getDate() - ((today.getDay()+6)%7));
+  const sunday = new Date(monday); sunday.setDate(monday.getDate()+6);
+  const start=localISO(monday),end=localISO(sunday);
+  return workouts.filter(w=>w.workout_date>=start && w.workout_date<=end);
+}
 const dateFmt = value => {if(!value) return '—'; const d=new Date(String(value).slice(0,10)+'T12:00:00'); return Number.isNaN(d.getTime())?'—':new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'short',year:'numeric'}).format(d)};
 const timeFmt = value => value ? esc(String(value).slice(0,5)) : '—';
 const weekdayFmt = value => ({Monday:'Segunda-feira',Tuesday:'Terça-feira',Wednesday:'Quarta-feira',Thursday:'Quinta-feira',Friday:'Sexta-feira',Saturday:'Sábado',Sunday:'Domingo'})[String(value)] || str(value);
@@ -111,8 +119,9 @@ function renderHome(){
    ${pending.length?card('Financeiro',pending.map(c=>`<div class="kv"><span>${str(c.description||c.charge_type||'Cobrança')}</span><strong>${esc(c.currency||'BRL')} ${Number(c.amount||0).toLocaleString('pt-BR',{minimumFractionDigits:2})} · ${str(c.status)}</strong></div>`).join('')):''}`;
 }
 function renderWorkouts(){
-  if(state.detail){const w=state.data.workouts.find(x=>String(x.id)===String(state.detail));if(w)return renderWorkout(w)}
-  return `<div class="eyebrow">Sua evolução</div><h1>Treinos</h1><p class="muted">Treinos publicados pela equipe 131 Crew.</p>${state.errors.workouts?'<div class="alert">Não foi possível consultar os treinos agora.</div>':state.data.workouts.length?state.data.workouts.map(w=>`<button class="listcard" data-workout="${esc(w.id)}"><div class="inline"><span class="chip">${dateFmt(w.workout_date)}</span>${w.score_type?`<span class="tag">Resultado: ${esc(w.score_type)}</span>`:''}</div><h3>${esc(w.title||'Treino')}</h3><div class="muted small">${str(w.goal)}</div></button>`).join(''):'<div class="empty">Nenhum treino publicado ainda.</div>'}`;
+  const weekWorkouts=currentWeekWorkouts(state.data.workouts);
+  if(state.detail){const w=weekWorkouts.find(x=>String(x.id)===String(state.detail));if(w)return renderWorkout(w);state.detail=null}
+  return `<div class="eyebrow">Sua evolução</div><h1>Treinos</h1><p class="muted">Treinos publicados para esta semana.</p>${state.errors.workouts?'<div class="alert">Não foi possível consultar os treinos agora.</div>':weekWorkouts.length?weekWorkouts.map(w=>`<button class="listcard" data-workout="${esc(w.id)}"><div class="inline"><span class="chip">${dateFmt(w.workout_date)}</span>${w.score_type?`<span class="tag">Resultado: ${esc(w.score_type)}</span>`:''}</div><h3>${esc(w.title||'Treino')}</h3><div class="muted small">${str(w.goal)}</div></button>`).join(''):'<div class="empty">Nenhum treino publicado para esta semana.</div>'}`;
 }
 function renderWorkout(w){
   const blocks=[['Objetivo','goal'],['Aquecimento geral','general_warmup'],['Aquecimento específico','specific_warmup'],['Força / Técnica','strength_or_skill'],['Workout','workout'],['Cool down','cool_down'],['Escalas','scaling_notes'],['Orientações do timer','timer_notes']].filter(([,key])=>w[key]);

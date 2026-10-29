@@ -26,8 +26,8 @@ Abra `http://localhost:8080`. Sem login e sem URL autorizada no Supabase Auth, o
 
 ## Colocar no GitHub Pages Free (sem builder)
 
-1. Entre em https://github.com/new e crie um repositório **público** chamado `131-crew-cfc-student-app`, no seu perfil. Não inclua README, licença ou `.gitignore` automáticos. O repositório público contém somente **código do frontend**; não envie documentos privados, dados de alunos ou segredos.
-2. Depois de criado, forneça o endereço exato do repositório ao assistente para que ele use o conector GitHub para subir estes arquivos. O conector atual permite criar/editar arquivos em repositórios existentes, mas não criar um repositório do zero.
+1. **Concluído em 28/10/2026**: repositório público criado em https://github.com/fernandomaik2001-lgtm/131-crew-cfc-student-app e arquivos enviados à branch `main`. Somente código público, sem dados privados nem segredos.
+2. **Concluído**: `index.html`, `app.js`, CSS, PWA, documentação e testes foram enviados ao repositório; verificados via GitHub.
 3. No GitHub, abra **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: main → /(root) → Save**. O site deve ficar em uma URL `https://<usuario>.github.io/131-crew-cfc-student-app/` depois da publicação. Valide a URL exibida na página Pages, em vez de adivinhá-la.
 4. Abra **Supabase → Authentication → URL Configuration → Redirect URLs** no projeto `aohfzxgchbuqqgeshopf` e adicione a URL de produção efetivamente criada, com o caminho do repositório e `/**` (por exemplo, `https://<usuario>.github.io/131-crew-cfc-student-app/**`). Faça a mesma configuração para qualquer preview legítimo usado para Magic Links.
 5. Teste autenticação, acesso de Member real, resultados, logout, waiver e isolamento entre alunos **antes de enviar a URL para toda a turma**.
@@ -50,5 +50,5 @@ Publicação no GitHub Pages não custa créditos de IA. O serviço e o Supabase
 
 - Testes `node --check` e `node tests/logic.cjs` verificam sintaxe, fluxo simulado de sessão, filtros, formulário de resultado, refresh e logout.
 - O ambiente de navegador automatizado atual impediu navegação até local/URLs de teste (`ERR_BLOCKED_BY_ADMINISTRATOR`); teste real no Chrome/Safari ainda é obrigatório.
-- A conexão com o Supabase real depende de o projeto estar **ACTIVE**. O projeto estava `INACTIVE` e recebeu solicitação de restauração em 28/10/2026, passando inicialmente a `COMING_UP`.
-- O código foi gerado, mas a implantação pública, o envio ao repositório e a homologação com alunos ainda estão pendentes.
+- A conexão com o Supabase real depende de o projeto estar **ACTIVE**. O projeto estava `INACTIVE` e foi restaurado em 28/10/2026. Status verificado: `ACTIVE_HEALTHY`; tabelas principais confirmadas com RLS ativo.
+- O código está salvo no repositório GitHub; publicação Pages, URL de redirecionamento Magic Link e homologação com alunos ainda estão pendentes.

@@ -12,8 +12,8 @@
 
 ## Checklist para produção
 
-- [ ] Supabase em status ACTIVE e consultas funcionando.
-- [ ] Repositório GitHub criado pelo proprietário e código salvo no repositório.
+- [x] Supabase em status `ACTIVE_HEALTHY` e esquema principal consultável.
+- [x] GitHub: `fernandomaik2001-lgtm/131-crew-cfc-student-app` com código verificado em `main`.
 - [ ] Hospedagem configurada (GitHub Pages ou Cloudflare Pages plano gratuito).
 - [ ] URL exata adicionada aos Redirect URLs no Supabase Auth.
 - [ ] Magic Link testado em dispositivo real.
